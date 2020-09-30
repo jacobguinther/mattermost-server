@@ -81,7 +81,9 @@ func TestGetPing(t *testing.T) {
 		defer os.Unsetenv("MM_FEATUREFLAGS_TESTFEATURE")
 		memoryStore, err := config.NewMemoryStore()
 		require.Nil(t, err)
-		retrievedConfig := memoryStore.Get()
+		configStore, err := config.NewStoreFromBacking(memoryStore)
+		require.Nil(t, err)
+		retrievedConfig := configStore.Get()
 
 		// replace config with generated config
 		oldConfig := th.App.Config().Clone()
